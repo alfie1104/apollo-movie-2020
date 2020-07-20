@@ -9,6 +9,7 @@ const GET_MOVIES = gql`
     movies {
       id
       medium_cover_image
+      isLiked @client
     }
   }
 `;
@@ -21,14 +22,14 @@ const Container = styled.div`
 `;
 
 const Header = styled.header`
-  background-image : linear-gradient(-45deg, #d754ab, #fd723a);
-  height : 45vh;
+  background-image: linear-gradient(-45deg, #d754ab, #fd723a);
+  height: 45vh;
   color: white;
-  display:flex;
+  display: flex;
   flex-direction: column;
-  justify-content : center'
-  align-items:center;
-  width:100%;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 `;
 
 const Title = styled.h1`
@@ -37,7 +38,7 @@ const Title = styled.h1`
   margin-bottom: 20px;
 `;
 
-const Subtitle = styled.h2`
+const Subtitle = styled.h3`
   font-size: 35px;
 `;
 
@@ -67,13 +68,16 @@ export default () => {
         <Subtitle>I love GraphQL</Subtitle>
       </Header>
       {loading && <Loading>Loading...</Loading>}
-      {!loading && data.movies && (
-        <Movies>
-          {data.movies.map((m) => (
-            <Movie key={m.id} {...m} id={m.id} bg={m.medium_cover_image} />
-          ))}
-        </Movies>
-      )}
+      <Movies>
+        {data?.movies?.map((m) => (
+          <Movie
+            key={m.id}
+            id={m.id}
+            bg={m.medium_cover_image}
+            isLiked={m.isLiked}
+          />
+        ))}
+      </Movies>
     </Container>
   );
 };
